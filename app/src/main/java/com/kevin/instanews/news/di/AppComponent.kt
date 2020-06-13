@@ -2,7 +2,6 @@ package com.kevin.instanews.news.di
 
 import android.app.Application
 import com.kevin.instanews.InstaNewsApp
-import com.kevin.instanews.core.di.AuthServiceModule
 import com.kevin.instanews.core.di.NewsServiceModule
 import com.kevin.instanews.core.di.ViewModelFactoryModule
 
@@ -21,7 +20,6 @@ import javax.inject.Singleton
         // Global
         NewsDatabaseModule::class,
         NewsServiceModule::class,
-        AuthServiceModule::class,
         ViewModelFactoryModule::class,
 
         // News feature

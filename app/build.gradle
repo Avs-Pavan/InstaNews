@@ -96,4 +96,11 @@ dependencies {
 
     // Debug
     debugImplementation "com.amitshekhar.android:debug-db:$debugDbVersion"
+
+
+    implementation 'com.google.android.material:material:1.1.0'
+
+    implementation 'com.airbnb.android:lottie:3.4.1'
+
+
 }

@@ -2,7 +2,9 @@ package com.kevin.instanews.news.di
 
 
 import com.kevin.instanews.news.domain.NewsRepositoryModule
+import com.kevin.instanews.news.ui.activity.AuthActivity
 import com.kevin.instanews.news.ui.activity.NewsActivity
+import com.kevin.instanews.news.ui.activity.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +23,8 @@ interface NewsFeatureBindingModule {
 
     @ContributesAndroidInjector
     fun contributeNewsActivity(): NewsActivity
+    @ContributesAndroidInjector
+    fun contributeAuthActivity(): AuthActivity
+    @ContributesAndroidInjector
+    fun contributeSplashActivity(): SplashActivity
 }
