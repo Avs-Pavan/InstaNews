@@ -1,16 +1,16 @@
 package com.kevin.instanews.news.ui.activity
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.kevin.instanews.news.ui.adapter.NewsArticlesAdapter
+import android.view.View
+import android.widget.Toast
 import com.kevin.instanews.core.ui.ViewState
 import com.kevin.instanews.core.ui.base.BaseActivity
 import com.kevin.instanews.news.ui.viewmodel.NewsArticleViewModel
 import com.kevin.instanews.R
+import com.kevin.instanews.core.utils.Transformations.DepthTransformation
 import com.kevin.instanews.core.utils.getViewModel
 import com.kevin.instanews.core.utils.observeNotNull
-import com.kevin.instanews.core.utils.toast
-import dagger.android.AndroidInjection
+import com.kevin.instanews.news.ui.adapter.VPAdapter
 import kotlinx.android.synthetic.main.activity_news.*
 import kotlinx.android.synthetic.main.empty_layout.*
 import kotlinx.android.synthetic.main.progress_layout.*
@@ -18,31 +18,35 @@ import kotlinx.android.synthetic.main.progress_layout.*
 class NewsActivity : BaseActivity() {
 
     private val newsArticleViewModel by lazy { getViewModel<NewsArticleViewModel>() }
-
     /**
      * Starting point of the activity
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-       // AndroidInjection.inject(this) // injection happens here
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
-
-        // Setting up RecyclerView and adapter
-        newsList.setEmptyView(empty_view)
-        newsList.setProgressView(progress_view)
-
-        val adapter = NewsArticlesAdapter { toast("Clicked on item") }
-        newsList.adapter = adapter
-        newsList.layoutManager = LinearLayoutManager(this)
-
-        // Update the UI on state change
+        Toast.makeText(this,"Please scroll side ways", Toast.LENGTH_LONG).show()
+        adapterViewFlipper.setPageTransformer(true,DepthTransformation())
         newsArticleViewModel.getNewsArticles().observeNotNull(this) { state ->
             when (state) {
-                is ViewState.Success -> adapter.submitList(state.data)
-                is ViewState.Loading -> newsList.showLoading()
-                is ViewState.Error -> toast("Something went wrong ¯\\_(ツ)_/¯ => ${state.message}")
+                is ViewState.Success -> {
+                    progress_view.visibility=View.INVISIBLE
+                    empty_view.visibility=View.INVISIBLE
+                    adapterViewFlipper.adapter=VPAdapter(state.data)
+                }
+                is ViewState.Loading -> {
+                    adapterViewFlipper.visibility=View.VISIBLE
+                    progress_view.visibility=View.VISIBLE
+                    empty_view.visibility=View.INVISIBLE
+                }
+                is ViewState.Error -> {
+                        adapterViewFlipper.visibility=View.INVISIBLE
+                        progress_view.visibility=View.INVISIBLE
+                        empty_view.visibility=View.VISIBLE
+                }
             }
         }
+
+
 
     }
 }

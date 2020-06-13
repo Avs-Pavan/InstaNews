@@ -22,7 +22,9 @@
         <activity android:name=".news.ui.activity.AuthActivity">
 
         </activity>
-        <activity android:name=".news.ui.activity.NewsActivity"></activity>
+        <activity android:name=".news.ui.activity.NewsActivity">
+
+        </activity>
     </application>
 
 </manifest>
